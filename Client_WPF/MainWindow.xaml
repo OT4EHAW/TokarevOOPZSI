@@ -1,0 +1,166 @@
+﻿<Window x:Class="Client_WPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Client_WPF"
+        mc:Ignorable="d"
+        Title="Образовательные учреждения" Height="550" Width="800" ResizeMode="CanMinimize">
+
+    <Grid Background="#FFA9E49B">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.4*"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <TabControl Grid.Column="0">
+
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Список</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="#FFFFA4A4" ItemsSource="{Binding MoscowEducationalInstitutions}" SelectedItem="{Binding SelectedMoscowEducationalInstitution}" Height="430" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=ShortName}" />
+                                        <TextBlock Text="{Binding Path=Subordination}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding DownCommand}"
+                            CommandParameter="{Binding MoscowEducationalInstitutions.Count}">Загрузить ещё</Button>
+
+                    </StackPanel>
+                </TabItem.Content>
+            </TabItem>
+
+            <TabItem >
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3">Текущая сессия</TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="#FFFFA4A4" ItemsSource="{Binding CacheList}" SelectedItem="{Binding SelectedMoscowEducationalInstitution}" Height="410" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=ShortName}" />
+                                        <TextBlock Text="{Binding Path=Subordination}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding AddCommand}"
+                                CommandParameter="{Binding SelectedMoscowEducationalInstitution}">Добавить в избранное</Button>
+                        <Button Command="{Binding RemoveCommand}"
+                            CommandParameter="{Binding SelectedMoscowEducationalInstitution}">Удалить</Button>
+
+
+                    </StackPanel>
+                </TabItem.Content>
+
+            </TabItem>
+
+            <TabItem >
+
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Margin="3"><Run Text="Избранное"/></TextBlock>
+                    </StackPanel>
+                </TabItem.Header>
+
+                <TabItem.Content>
+                    <StackPanel>
+
+                        <ListBox Background="#FFFFA4A4" ItemsSource="{Binding Favorites}" SelectedItem="{Binding SelectedMoscowEducationalInstitution}" Height="410" >
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Margin="5">
+                                        <TextBlock FontWeight="Bold" FontSize="14" Text="{Binding Path=ShortName}" />
+                                        <TextBlock Text="{Binding Path=Subordination}" />
+                                        
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+
+                        <Button Command="{Binding UpdateCommand}">Обновить</Button>
+                        <Button Command="{Binding ClearCommand}">Очистить избранное</Button>
+
+                    </StackPanel>
+                </TabItem.Content>
+
+            </TabItem>
+
+        </TabControl>
+
+        <WrapPanel Grid.Column="1" Width="180" Height="30" VerticalAlignment="Top" Margin="0 20" >
+
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="Загружено " />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="{Binding MoscowEducationalInstitutions.Count}" FontWeight="Bold" />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text=" из " />
+            <TextBlock Grid.Column="1" Foreground="Black" FontSize="14" Text="{Binding dbSize}" FontWeight="Bold" />
+
+        </WrapPanel>
+
+        <StackPanel Grid.Column="1" Margin="0 55" DataContext="{Binding SelectedMoscowEducationalInstitution}">
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" VerticalAlignment="Top">
+            <Run FontSize="14">Полное наименование:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding FullName}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Юр. организация:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding LegalOrganization}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black"  TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Руководитель:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding ChiefName}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Юр. адрес:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding LegalAddress}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">WebSite:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding WebSite}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+            <TextBlock Foreground="Black" TextWrapping="Wrap" Width="470" Height="60" > 
+            <Run FontSize="14">Тип организации:</Run>
+            <LineBreak></LineBreak>
+            <Run Text="{Binding OrgType}" FontSize="16" FontWeight="Bold"></Run>
+            </TextBlock>
+
+
+        </StackPanel>
+
+    </Grid>
+
+</Window>
